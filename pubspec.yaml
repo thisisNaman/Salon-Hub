@@ -1,0 +1,53 @@
+name: salon_hub
+description: A new Flutter project.
+
+publish_to: 'none' 
+
+version: 1.0.1+1
+
+environment:
+  sdk: ">=2.15.0-262.0.dev <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_svg:
+  provider:
+  http: 
+  firebase_core:
+  firebase_auth:
+  firebase_dynamic_links: 
+  connectivity: 
+  path_provider: ^2.0.8
+  flutter_staggered_grid_view: 
+  razorpay_flutter: ^1.2.7
+  flutter_dotenv: ^5.0.2
+  sliding_up_panel: ^2.0.0+1
+  connectivity_plus: ^2.2.0
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^1.0.0
+  flutter_native_splash: ^1.3.3
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/Logo.png
+  android: true
+  
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/
+    - .env
+  fonts:
+    - family: Muli
+      fonts:
+        - asset: assets/fonts/muli/Muli.ttf
+        - asset: assets/fonts/muli/Muli-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/muli/Muli-Light.ttf
+          weight: 300
