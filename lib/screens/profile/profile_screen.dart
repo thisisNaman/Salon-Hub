@@ -4,7 +4,6 @@ import 'package:salon_hub/enums.dart';
 import 'components/body.dart';
 
 class ProfileScreen extends StatefulWidget {
-  
   static String routeName = "/profile";
 
   @override
@@ -18,11 +17,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       onWillPop: () async => false,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xff322310),
-          iconTheme: const IconThemeData(color: Color(0xffb2936e)),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          iconTheme: const IconThemeData(color: Colors.white),
           title: const Text(
             'Profile',
-            style: TextStyle(color: Color(0xffb2936e)),
+            style: TextStyle(color: Colors.white),
           ),
         ),
         body: Body(),

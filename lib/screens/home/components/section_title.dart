@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salon_hub/constants.dart';
 
 import '../../../size_config.dart';
 
@@ -21,7 +22,7 @@ class SectionTitle extends StatelessWidget {
           title,
           style: TextStyle(
             fontSize: getProportionateScreenWidth(18),
-            color: Color(0xffb2936e),
+            color: kPrimaryColor,
           ),
         ),
       ],

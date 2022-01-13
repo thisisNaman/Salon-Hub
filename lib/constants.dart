@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:salon_hub/size_config.dart';
 
-const kPrimaryColor = Color(0xffDD914F);
-const kPrimaryLightColor = Color(0xFFFFECDF);
+const kPrimaryColor = Color.fromARGB(255, 211, 43, 13);
+const kPrimaryLightColor = Color.fromARGB(255, 226, 87, 77);
+Color lightBackgroundColor = Color.fromARGB(255, 59, 79, 97);
 const kPrimaryGradientColor = LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
@@ -25,6 +26,8 @@ const defaultDuration = Duration(milliseconds: 250);
 // Form Error
 final RegExp emailValidatorRegExp =
     RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+String Function(Match) mathFunc = (Match match) => '${match[1]},';
 const String kEmailNullError = "Please Enter your email";
 const String kInvalidEmailError = "Please Enter Valid Email";
 const String kPassNullError = "Please Enter your password";

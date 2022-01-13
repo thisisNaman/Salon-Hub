@@ -20,7 +20,7 @@ class Body extends StatelessWidget {
           Center(
             child: Icon(
               Icons.account_circle_rounded,
-              color: kPrimaryColor,
+              color: Colors.white,
               size: getProportionateScreenWidth(40),
             ),
           ),
@@ -30,7 +30,7 @@ class Body extends StatelessWidget {
               auth.currentUser!.email.toString(),
               style: const TextStyle(
                   fontSize: 20.0,
-                  color: kPrimaryColor,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),
           ),

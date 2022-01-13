@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salon_hub/constants.dart';
 
 import '../../../size_config.dart';
 
@@ -16,15 +17,21 @@ class TopRoundedContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: getProportionateScreenWidth(20)),
-      padding: EdgeInsets.only(top: getProportionateScreenWidth(20)),
+      padding: EdgeInsets.only(top: getProportionateScreenWidth(25)),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: color,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(40),
-          topRight: Radius.circular(40),
-        ),
-      ),
+          color: color,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(40),
+            topRight: Radius.circular(40),
+          ),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.white.withOpacity(0.5),
+                blurStyle: BlurStyle.outer,
+                spreadRadius: -7.0,
+                blurRadius: 10.0)
+          ]),
       child: child,
     );
   }

@@ -23,6 +23,7 @@ class _BodyState extends State<Body> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final TextEditingController name = TextEditingController();
   final TextEditingController phoneno = TextEditingController();
+  final TextEditingController address = TextEditingController();
   String description = '';
 
   _getOrderId(String txnid, String amount) async {}
@@ -43,7 +44,11 @@ class _BodyState extends State<Body> {
       'description': description,
       'timeout': 120,
       'currency': "INR",
-      'prefill': {'contact': phoneno.text, 'email': auth.currentUser!.email}
+      'prefill': {
+        'contact': phoneno.text,
+        'email': auth.currentUser!.email,
+        'notes': address.text,
+      }
     };
     try {
       _razorpay.open(options);
@@ -110,6 +115,22 @@ class _BodyState extends State<Body> {
     return Stack(children: [
       Column(
         children: [
+          cartItems.isNotEmpty
+              ? const SizedBox(
+                  height: 10.0,
+                )
+              : Container(),
+          cartItems.isNotEmpty
+              ? const Text(
+                  'Swipe left to delete',
+                  style: TextStyle(color: Color.fromARGB(255, 107, 138, 168)),
+                )
+              : Container(),
+          cartItems.isNotEmpty
+              ? const SizedBox(
+                  height: 3.0,
+                )
+              : Container(),
           Expanded(
             flex: 3,
             child: Padding(
@@ -132,12 +153,12 @@ class _BodyState extends State<Body> {
                       background: Container(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         decoration: BoxDecoration(
-                          color: Color(0xFFFFE6E6),
+                          color: const Color(0xFFFFE6E6),
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Row(
                           children: [
-                            Spacer(),
+                            const Spacer(),
                             SvgPicture.asset("assets/icons/Trash.svg"),
                           ],
                         ),
@@ -166,7 +187,7 @@ class _BodyState extends State<Body> {
                                 child: Text(
                                   cartItems[index].product.name,
                                   style: const TextStyle(
-                                      color: Color(0xffb2936e), fontSize: 16),
+                                      color: Colors.white, fontSize: 16),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                 ),
@@ -177,7 +198,8 @@ class _BodyState extends State<Body> {
                                   Text.rich(
                                     TextSpan(
                                       text:
-                                          "\Rs. ${cartItems[index].product.price}",
+                                          "\u{20B9} ${cartItems[index].product.price}"
+                                              .replaceAllMapped(reg, mathFunc),
                                       style: const TextStyle(
                                           fontWeight: FontWeight.w600,
                                           color: kPrimaryColor),
@@ -206,13 +228,13 @@ class _BodyState extends State<Body> {
                                           },
                                           icon: const Icon(
                                             Icons.remove_circle,
-                                            color: Color(0xffb2936e),
+                                            color: kPrimaryLightColor,
                                           ))
                                       : Container(),
                                   IconButton(
                                     icon: const Icon(
                                       Icons.add_circle,
-                                      color: Color(0xffb2936e),
+                                      color: kPrimaryLightColor,
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -279,12 +301,14 @@ class _BodyState extends State<Body> {
                 ),
                 textField(size, "Name", false, name),
                 textField(size, "Phone no.", true, phoneno),
+                textField(size, "Address", false, address),
                 Container(
                   padding: const EdgeInsets.symmetric(
                       vertical: 50.0, horizontal: 50.0),
                   child: DefaultButton(
                     press: launchRazorPay,
-                    text: 'Pay  \u{20B9}' + totalPrice.toString(),
+                    text: 'Pay  \u{20B9} ' +
+                        totalPrice.toString().replaceAllMapped(reg, mathFunc),
                   ),
                 )
               ],
@@ -299,13 +323,13 @@ class _BodyState extends State<Body> {
       TextEditingController controller) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: size.height / 50),
-      child: Container(
+      child: SizedBox(
         height: size.height / 15,
         width: size.width / 1.1,
         child: TextFormField(
           controller: controller,
           keyboardType: isNumerical ? TextInputType.number : null,
-          style: TextStyle(color: Color(0xffb2936e)),
+          style: const TextStyle(color: Color(0xffb2936e)),
           validator: (value) {
             if (value!.length != 10 && isNumerical == true) {
               return "Mobile number must be of 10 digits.";
@@ -316,8 +340,9 @@ class _BodyState extends State<Body> {
           decoration: InputDecoration(
             hintText: text,
             labelText: text,
-            labelStyle: TextStyle(color: Color(0xffb2936e)),
-            hintStyle: TextStyle(color: Color(0xffb2936e).withOpacity(0.5)),
+            labelStyle: const TextStyle(color: Color(0xffb2936e)),
+            hintStyle:
+                TextStyle(color: const Color(0xffb2936e).withOpacity(0.5)),
             floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
         ),

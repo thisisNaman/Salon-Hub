@@ -19,7 +19,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     final ProductDetailsArguments agrs =
         ModalRoute.of(context)!.settings.arguments as ProductDetailsArguments;
     return Scaffold(
-      backgroundColor: const Color(0xff322310),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(AppBar().preferredSize.height),
         child: CustomAppBar(),

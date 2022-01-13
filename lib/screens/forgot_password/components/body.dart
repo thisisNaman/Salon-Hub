@@ -27,7 +27,7 @@ class Body extends StatelessWidget {
                 "Forgot Password",
                 style: TextStyle(
                   fontSize: getProportionateScreenWidth(28),
-                  color: Color(0xffddc6aa),
+                  color: kPrimaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -94,12 +94,12 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
               }
               return null;
             },
-            style: TextStyle(color: Color(0xffddc6aa)),
+            style: TextStyle(color: kPrimaryLightColor),
             decoration: const InputDecoration(
               labelText: "Email",
               hintText: "Enter your email",
-              labelStyle: TextStyle(color: Color(0xffb2936e)),
-              hintStyle: TextStyle(color: Color(0xffb2936e)),
+              labelStyle: TextStyle(color: kPrimaryLightColor),
+              hintStyle: TextStyle(color: kPrimaryLightColor),
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: CustomSuffixIcon(svgIcon: "assets/icons/Mail.svg"),
             ),

@@ -27,7 +27,7 @@ class _ProductImagesState extends State<ProductImages> {
           child: Container(
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
-                color: Color(0xffe8caa7),
+                color: kPrimaryLightColor,
                 borderRadius: BorderRadius.circular(8.0)),
             child: FutureBuilder(
               future: _getImage(context, widget.product.image_src),

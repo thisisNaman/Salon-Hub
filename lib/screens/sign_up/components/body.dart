@@ -20,13 +20,19 @@ class Body extends StatelessWidget {
                 Text(
                   "Salon Hub",
                   style: TextStyle(
-                    color: kPrimaryColor,
+                    color: Colors.white,
                     fontSize: getProportionateScreenWidth(30),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
-                Text("Register Account", style: headingStyle),
+                Text("Register Account",
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(28),
+                      fontWeight: FontWeight.bold,
+                      color: kPrimaryLightColor,
+                      height: 1.5,
+                    )),
                 const Text(
                   "Complete your details.",
                   textAlign: TextAlign.center,
@@ -35,12 +41,12 @@ class Body extends StatelessWidget {
                 SignUpForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SizedBox(height: getProportionateScreenHeight(20)),
-                Text(
+                const Text(
                   'By continuing your confirm that you agree \nwith our Terms and Conditions',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Color(0xffb2936e)),
+                  style: TextStyle(color: kPrimaryLightColor),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
               ],

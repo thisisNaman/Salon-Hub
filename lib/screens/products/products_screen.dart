@@ -6,7 +6,7 @@ import 'package:salon_hub/constants.dart';
 import 'package:salon_hub/models/product.dart';
 import 'package:salon_hub/screens/details/details_screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:salon_hub/screens/home/components/search_field.dart';
+import 'package:salon_hub/components/search_field.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'dart:convert' as convert;
 import '../../size_config.dart';
@@ -37,11 +37,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   bool _show = true;
   List<String> skinCategory = ["all", "wella", "vedicline", "cacau", "raaga"];
   List<String> toolsCategory = ["all", "ikonic", "wahl"];
-  Map<String, int> skC = {"wella": 1, "vedicline": 0, "cacau": 0, "raaga": 0};
-  Map<String, int> tC = {
-    "ikonic": 1,
-    "wahl": 0,
-  };
+
   int _skinValue = 0;
   int _toolValue = 0;
   String page = '1';
@@ -191,7 +187,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                 if (snapshot.connectionState ==
                                                     ConnectionState.waiting) {
                                                   return const CircularProgressIndicator(
-                                                    color: Color(0xffDD914F),
+                                                    color: kPrimaryColor,
                                                   );
                                                 }
 
@@ -220,18 +216,20 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                       snapshot
                                                           .data![index].name,
                                                       style: const TextStyle(
-                                                        color: kPrimaryColor,
+                                                        color: Colors.white,
                                                         overflow: TextOverflow
                                                             .visible,
                                                       ),
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Rs. ${snapshot.data![index].price}',
+                                                    '\u{20B9} ${snapshot.data![index].price}'
+                                                        .replaceAllMapped(
+                                                            reg, mathFunc),
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style: const TextStyle(
-                                                      color: Colors.white,
+                                                      color: kPrimaryColor,
                                                     ),
                                                   ),
                                                 ],

@@ -125,10 +125,10 @@ class _BodyState extends State<Body> {
         }
         return null;
       },
-      style: TextStyle(color: Color(0xffddc6aa)),
+      style: TextStyle(color: kPrimaryLightColor),
       decoration: const InputDecoration(
-        labelStyle: TextStyle(color: Color(0xffb2936e)),
-        hintStyle: TextStyle(color: Color(0xffb2936e)),
+        labelStyle: TextStyle(color: kPrimaryLightColor),
+        hintStyle: TextStyle(color: kPrimaryColor),
         labelText: "Old Password",
         hintText: "Enter your old password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -140,7 +140,7 @@ class _BodyState extends State<Body> {
   TextFormField buildConfirmPassFormField() {
     return TextFormField(
       obscureText: true,
-      cursorColor: Color(0xffb2936e),
+      cursorColor: kPrimaryColor,
       controller: _passwordconfirmController,
       onSaved: (newValue) => confirm_password = newValue,
       onChanged: (value) {
@@ -151,7 +151,7 @@ class _BodyState extends State<Body> {
         }
         confirm_password = value;
       },
-      style: TextStyle(color: Color(0xffddc6aa)),
+      style: TextStyle(color: kPrimaryColor),
       validator: (value) {
         if (value!.isEmpty) {
           addError(error: kPassNullError);
@@ -165,8 +165,8 @@ class _BodyState extends State<Body> {
       decoration: const InputDecoration(
         labelText: "Confirm Password",
         hintText: "Re-enter your password",
-        labelStyle: TextStyle(color: Color(0xffb2936e)),
-        hintStyle: TextStyle(color: Color(0xffb2936e)),
+        labelStyle: TextStyle(color: kPrimaryLightColor),
+        hintStyle: TextStyle(color: kPrimaryLightColor),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSuffixIcon(
           svgIcon: "assets/icons/Lock.svg",
@@ -178,7 +178,7 @@ class _BodyState extends State<Body> {
   TextFormField buildPasswordFormField() {
     return TextFormField(
       controller: _passwordController,
-      cursorColor: Color(0xffb2936e),
+      cursorColor: kPrimaryLightColor,
       obscureText: true,
       onSaved: (newValue) => password = newValue,
       onChanged: (value) {
@@ -189,7 +189,7 @@ class _BodyState extends State<Body> {
         }
         password = value;
       },
-      style: TextStyle(color: Color(0xffddc6aa)),
+      style: TextStyle(color: kPrimaryLightColor),
       validator: (value) {
         if (value!.isEmpty) {
           addError(error: kPassNullError);
@@ -203,8 +203,8 @@ class _BodyState extends State<Body> {
       decoration: const InputDecoration(
         labelText: "Password",
         hintText: "Enter your password",
-        labelStyle: TextStyle(color: Color(0xffb2936e)),
-        hintStyle: TextStyle(color: Color(0xffb2936e)),
+        labelStyle: TextStyle(color: kPrimaryLightColor),
+        hintStyle: TextStyle(color: kPrimaryLightColor),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSuffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),

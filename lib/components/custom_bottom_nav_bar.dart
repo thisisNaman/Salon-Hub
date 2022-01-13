@@ -23,11 +23,11 @@ class CustomBottomNavBar extends StatefulWidget {
 class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   @override
   Widget build(BuildContext context) {
-    final Color inActiveIconColor = Color(0xFFB6B6B6);
+    final Color inActiveIconColor = Color(0xFFB6B6B6).withOpacity(0.8);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14),
       decoration: BoxDecoration(
-        color: Color(0xffDD914F).withOpacity(0.4),
+        color: kPrimaryLightColor.withOpacity(0.5),
         boxShadow: [
           BoxShadow(
             offset: const Offset(0, -15),
@@ -49,7 +49,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
                 icon: SvgPicture.asset(
                   "assets/icons/Shop Icon.svg",
                   color: MenuState.home == widget.selectedMenu
-                      ? kPrimaryColor
+                      ? Colors.white
                       : inActiveIconColor,
                 ),
                 onPressed: () =>
@@ -68,7 +68,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
                 icon: SvgPicture.asset(
                   "assets/icons/User Icon.svg",
                   color: MenuState.profile == widget.selectedMenu
-                      ? kPrimaryColor
+                      ? Colors.white
                       : inActiveIconColor,
                 ),
                 onPressed: () =>

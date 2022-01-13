@@ -20,7 +20,8 @@ class Body extends StatelessWidget {
                 Text(
                   "Salon Hub",
                   style: TextStyle(
-                    color: kPrimaryColor,
+                    letterSpacing: 1.5,
+                    color: Colors.white,
                     fontSize: getProportionateScreenWidth(30),
                     fontWeight: FontWeight.bold,
                   ),
@@ -29,7 +30,7 @@ class Body extends StatelessWidget {
                 Text(
                   "Welcome Back",
                   style: TextStyle(
-                    color: Color(0xffddc6aa),
+                    color: kPrimaryLightColor,
                     fontSize: getProportionateScreenWidth(26),
                     fontWeight: FontWeight.bold,
                   ),

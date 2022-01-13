@@ -15,7 +15,7 @@ class CartScreen extends StatelessWidget {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: const Color(0xffDD914F),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       title: Column(
         children: [
           const Text(

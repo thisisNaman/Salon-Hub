@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:salon_hub/models/product.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
-import '../../../constants.dart';
-import '../../../size_config.dart';
+import '../size_config.dart';
 
 class SearchField extends StatefulWidget {
   final ValueChanged<String> onChanged;

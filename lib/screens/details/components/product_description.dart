@@ -26,7 +26,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
           child: Text(
             'Details : ',
             style: TextStyle(
-                color: Colors.white,
+                color: kPrimaryLightColor,
                 fontWeight: FontWeight.bold,
                 fontSize: getProportionateScreenWidth(15.0)),
           ),
@@ -42,7 +42,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
           child: Text(
             widget.product.description,
             overflow: TextOverflow.visible,
-            style: TextStyle(color: Color(0xffe8caa7)),
+            style: TextStyle(color: Colors.white54),
           ),
         ),
         Padding(

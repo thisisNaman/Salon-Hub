@@ -32,10 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
     SizeConfig().init(context);
     return WillPopScope(
       onWillPop: () async => false,
-      
       child: Scaffold(
         body: Body(),
-        bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.home),
+        bottomNavigationBar:
+            const CustomBottomNavBar(selectedMenu: MenuState.home),
       ),
     );
   }

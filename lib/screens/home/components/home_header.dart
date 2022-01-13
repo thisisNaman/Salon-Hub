@@ -5,7 +5,7 @@ import 'package:salon_hub/screens/cart/cart_screen.dart';
 
 import '../../../size_config.dart';
 import 'icon_btn_with_counter.dart';
-import 'search_field.dart';
+import '../../../components/search_field.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
@@ -20,11 +20,10 @@ class HomeHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          
           Text(
             'Salon Hub',
             style: TextStyle(
-                color: kPrimaryColor,
+                color: Colors.white,
                 fontSize: getProportionateScreenWidth(20),
                 fontWeight: FontWeight.bold),
           )

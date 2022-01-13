@@ -4,7 +4,6 @@ import 'package:salon_hub/screens/details/details_screen.dart';
 import 'package:salon_hub/screens/forgot_password/forgot_password_screen.dart';
 import 'package:salon_hub/screens/home/home_screen.dart';
 import 'package:salon_hub/screens/login_success/login_success_screen.dart';
-import 'package:salon_hub/screens/products/filterPage.dart';
 import 'package:salon_hub/screens/products/products_screen.dart';
 import 'package:salon_hub/screens/profile/profile_screen.dart';
 import 'package:salon_hub/screens/sign_in/sign_in_screen.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salon_hub/constants.dart';
 import 'package:salon_hub/models/product.dart';
 import 'package:salon_hub/screens/details/details_screen.dart';
 import '../size_config.dart';
@@ -58,11 +59,14 @@ class ProductCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Rs." + product.price.toString(),
+                    "\u{20B9}" +
+                        product.price
+                            .toString()
+                            .replaceAllMapped(reg, mathFunc),
                     style: TextStyle(
                       fontSize: getProportionateScreenWidth(18),
                       fontWeight: FontWeight.w600,
-                      color: Color(0xffb2936e),
+                      color: kPrimaryLightColor,
                     ),
                   ),
                 ],

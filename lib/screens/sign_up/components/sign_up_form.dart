@@ -98,12 +98,12 @@ class _SignUpFormState extends State<SignUpForm> {
         }
         return null;
       },
-      style: TextStyle(color: Color(0xffddc6aa)),
+      style: TextStyle(color: kPrimaryLightColor),
       decoration: const InputDecoration(
         labelText: "Confirm Password",
         hintText: "Re-enter your password",
-        labelStyle: TextStyle(color: Color(0xffb2936e)),
-        hintStyle: TextStyle(color: Color(0xffb2936e)),
+        labelStyle: TextStyle(color: kPrimaryLightColor),
+        hintStyle: TextStyle(color: kPrimaryLightColor),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSuffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
@@ -133,12 +133,12 @@ class _SignUpFormState extends State<SignUpForm> {
         }
         return null;
       },
-      style: TextStyle(color: Color(0xffddc6aa)),
+      style: TextStyle(color: kPrimaryLightColor),
       decoration: const InputDecoration(
         labelText: "Password",
         hintText: "Enter your password",
-        labelStyle: TextStyle(color: Color(0xffb2936e)),
-        hintStyle: TextStyle(color: Color(0xffb2936e)),
+        labelStyle: TextStyle(color: kPrimaryLightColor),
+        hintStyle: TextStyle(color: kPrimaryLightColor),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSuffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
@@ -168,12 +168,12 @@ class _SignUpFormState extends State<SignUpForm> {
         }
         return null;
       },
-      style: TextStyle(color: Color(0xffddc6aa)),
+      style: const TextStyle(color: kPrimaryLightColor),
       decoration: const InputDecoration(
         labelText: "Email",
         hintText: "Enter your email",
-        labelStyle: TextStyle(color: Color(0xffb2936e)),
-        hintStyle: TextStyle(color: Color(0xffb2936e)),
+        labelStyle: TextStyle(color: kPrimaryLightColor),
+        hintStyle: TextStyle(color: kPrimaryLightColor),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSuffixIcon(svgIcon: "assets/icons/Mail.svg"),
       ),

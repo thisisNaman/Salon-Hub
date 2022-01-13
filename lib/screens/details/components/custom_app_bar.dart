@@ -6,7 +6,6 @@ import '../../../size_config.dart';
 
 class CustomAppBar extends StatelessWidget {
   @override
-  // AppBar().preferredSize.height provide us the height that appy on our app bar
   Size get preferredSize => Size.fromHeight(AppBar().preferredSize.height);
 
   @override
@@ -26,7 +25,7 @@ class CustomAppBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   primary: kPrimaryColor,
-                  backgroundColor: Color(0xffDD914F),
+                  backgroundColor: kPrimaryColor,
                   padding: EdgeInsets.zero,
                 ),
                 onPressed: () => Navigator.pop(context),
@@ -37,26 +36,6 @@ class CustomAppBar extends StatelessWidget {
                 ),
               ),
             ),
-            // Container(
-            //   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
-            //   decoration: BoxDecoration(
-            //     color: Colors.white,
-            //     borderRadius: BorderRadius.circular(14),
-            //   ),
-            //   child: Row(
-            //     children: [
-            //       Text(
-            //         "$rating",
-            //         style: const TextStyle(
-            //           fontSize: 14,
-            //           fontWeight: FontWeight.w600,
-            //         ),
-            //       ),
-            //       const SizedBox(width: 5),
-            //       SvgPicture.asset("assets/icons/Star Icon.svg"),
-            //     ],
-            //   ),
-            // )
           ],
         ),
       ),

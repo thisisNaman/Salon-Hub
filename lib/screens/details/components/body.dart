@@ -25,7 +25,7 @@ class _BodyState extends State<Body> {
       children: [
         ProductImages(product: widget.product),
         TopRoundedContainer(
-          color: const Color(0xffDD914F),
+          color: lightBackgroundColor,
           child: Column(
             children: [
               Padding(
@@ -45,7 +45,7 @@ class _BodyState extends State<Body> {
                     )
                   : Container(),
               TopRoundedContainer(
-                color: const Color(0xffDD914F),
+                color: lightBackgroundColor,
                 child: Column(
                   children: [
                     Center(
@@ -56,7 +56,8 @@ class _BodyState extends State<Body> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(20.0)),
                         child: Text(
-                          "Rs. ${widget.product.price}",
+                          "\u{20B9} ${widget.product.price}"
+                              .replaceAllMapped(reg, mathFunc),
                           style: TextStyle(
                               color: kPrimaryColor,
                               fontWeight: FontWeight.bold,
