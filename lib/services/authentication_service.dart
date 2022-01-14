@@ -1,4 +1,7 @@
+// ignore_for_file: unnecessary_brace_in_string_interps
+import 'package:salon_hub/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth;
@@ -11,9 +14,10 @@ class AuthenticationService {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email!, password: password!);
-      if (_firebaseAuth.currentUser!.emailVerified)
+
+      if (_firebaseAuth.currentUser!.emailVerified) {
         return "Signed in";
-      else {
+      } else {
         try {
           await _firebaseAuth.currentUser!.sendEmailVerification();
           return "not verified";
@@ -26,12 +30,42 @@ class AuthenticationService {
     }
   }
 
-  Future<String> signUp({String? email, String? password}) async {
+  String uid = "";
+
+  Future<String> signUp(
+      {String? email,
+      String? password,
+      String? firstName,
+      String? lastName,
+      String? salonName,
+      String? address,
+      String? phonenum}) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email!, password: password!);
+        email: email!,
+        password: password!,
+      );
+      CustomUser user = salonName != ""
+          ? CustomUser(
+              address: address,
+              salonName: salonName,
+              phoneno: phonenum,
+              isSalon: true)
+          : CustomUser(
+              address: address,
+              phoneno: phonenum,
+              salonName: salonName,
+              isSalon: false);
+      uid = _firebaseAuth.currentUser!.uid;
+      await FirebaseFirestore.instance
+          .collection('userData')
+          .doc(uid)
+          .set(user.toJson());
+
       try {
         await _firebaseAuth.currentUser!.sendEmailVerification();
+        _firebaseAuth.currentUser!
+            .updateDisplayName("${firstName} ${lastName}");
         return "Verification link sent";
       } catch (e) {
         return e.toString();

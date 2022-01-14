@@ -6,8 +6,12 @@ class SignUpScreen extends StatelessWidget {
   static String routeName = "/sign_up";
   @override
   Widget build(BuildContext context) {
+    final String isSalon =
+        ModalRoute.of(context)!.settings.arguments.toString();
     return Scaffold(
-      body: Body(),
+      body: Body(
+        isSalon: isSalon,
+      ),
     );
   }
 }

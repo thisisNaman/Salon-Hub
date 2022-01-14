@@ -1,4 +1,8 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:salon_hub/constants.dart';
+import 'package:salon_hub/helper/snack_bar.dart';
+import 'package:salon_hub/screens/home/components/popular_product.dart';
 import 'package:salon_hub/screens/products/products_screen.dart';
 
 import '../../../size_config.dart';
@@ -13,15 +17,117 @@ class SpecialOffers extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(height: getProportionateScreenWidth(20)),
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: SectionTitle(
-            title: "Categories",
+            title: "Skin and Hair Care",
             press: () {},
           ),
         ),
         SizedBox(height: getProportionateScreenWidth(20)),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  SpecialOfferCard(
+                    image: "assets/images/wella.jpg",
+                    category: "",
+                    numOfBrands: '120+',
+                    press: () {
+                      Navigator.pushNamed(context, ProductsScreen.routeName,
+                          arguments: '11');
+                    },
+                  ),
+                  SpecialOfferCard(
+                    image: "assets/images/vedicline.jpg",
+                    category: "",
+                    numOfBrands: '300+',
+                    press: () {
+                      Navigator.pushNamed(context, ProductsScreen.routeName,
+                          arguments: '12');
+                    },
+                  ),
+                  SizedBox(width: getProportionateScreenWidth(20)),
+                ],
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              Row(
+                children: [
+                  SpecialOfferCard(
+                    image: "assets/images/cacau.png",
+                    category: "",
+                    numOfBrands: '',
+                    press: () {
+                      Navigator.pushNamed(context, ProductsScreen.routeName,
+                          arguments: '13');
+                    },
+                  ),
+                  SpecialOfferCard(
+                    image: "assets/images/raaga.jpg",
+                    category: "",
+                    numOfBrands: '50+',
+                    press: () {
+                      Navigator.pushNamed(context, ProductsScreen.routeName,
+                          arguments: '14');
+                    },
+                  ),
+                  SizedBox(width: getProportionateScreenWidth(20)),
+                ],
+              )
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 10.0,
+        ),
+        Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          child: SectionTitle(
+            title: "Tools",
+            press: () {},
+          ),
+        ),
+        SizedBox(height: getProportionateScreenWidth(20)),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              SpecialOfferCard(
+                image: "assets/images/ikonic.jpg",
+                category: "",
+                numOfBrands: '80+',
+                press: () {
+                  Navigator.pushNamed(context, ProductsScreen.routeName,
+                      arguments: '21');
+                },
+              ),
+              SpecialOfferCard(
+                image: "assets/images/wahl.png",
+                category: "",
+                numOfBrands: '220+',
+                press: () {
+                  Navigator.pushNamed(context, ProductsScreen.routeName,
+                      arguments: '22');
+                },
+              ),
+              SizedBox(width: getProportionateScreenWidth(20)),
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 10.0,
+        ),
+        const PopularProducts(),
+        const SizedBox(
+          height: 20.0,
+        ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -73,50 +179,63 @@ class SpecialOfferCard extends StatelessWidget {
       child: GestureDetector(
         onTap: press,
         child: SizedBox(
-          width: getProportionateScreenWidth(242),
+          width: getProportionateScreenWidth(156),
           height: getProportionateScreenWidth(100),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Stack(
-              children: [
-                Image.asset(
-                  image,
-                  fit: BoxFit.contain,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        const Color(0xFF343434).withOpacity(0.5),
-                        const Color(0xFF343434).withOpacity(0.15),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: getProportionateScreenWidth(15.0),
-                    vertical: getProportionateScreenWidth(10),
-                  ),
-                  child: Text.rich(
-                    TextSpan(
-                      style: const TextStyle(color: Colors.white),
-                      children: [
-                        TextSpan(
-                          text: "$category\n",
-                          style: TextStyle(
-                            fontSize: getProportionateScreenWidth(18),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        TextSpan(text: "$numOfBrands Products")
-                      ],
-                    ),
-                  ),
-                ),
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: lightBackgroundColor,
+                    blurStyle: BlurStyle.outer,
+                    spreadRadius: 5.0,
+                    blurRadius: 15.0)
               ],
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16.0),
+              child: Stack(
+                children: [
+                  Image.asset(
+                    image,
+                    fit: BoxFit.contain,
+                    colorBlendMode: BlendMode.lighten,
+                  ),
+                  // Container(
+                  //   decoration: BoxDecoration(
+                  //     gradient: LinearGradient(
+                  //       begin: Alignment.topCenter,
+                  //       end: Alignment.bottomCenter,
+                  //       colors: [
+                  //         const Color(0xFF343434).withOpacity(0.5),
+                  //         const Color(0xFF343434).withOpacity(0.15),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: getProportionateScreenWidth(15.0),
+                      vertical: getProportionateScreenWidth(10),
+                    ),
+                    child: Text.rich(
+                      TextSpan(
+                        style: const TextStyle(color: Colors.black54),
+                        children: [
+                          TextSpan(
+                            text: "$category\n",
+                            style: TextStyle(
+                              fontSize: getProportionateScreenWidth(18),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          // TextSpan(text: "$numOfBrands Products")
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

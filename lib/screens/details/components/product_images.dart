@@ -97,5 +97,14 @@ class _ProductImagesState extends State<ProductImages> {
 }
 
 Future<Widget?> _getImage(BuildContext context, String imageName) async {
-  return Image.network(imageName);
+  return Image.network(
+    imageName,
+    errorBuilder:
+        (BuildContext context, Object exception, StackTrace? stackTrace) {
+      return Icon(
+        Icons.wifi_off_rounded,
+        color: Colors.black,
+      );
+    },
+  );
 }

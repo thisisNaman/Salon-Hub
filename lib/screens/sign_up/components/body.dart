@@ -5,6 +5,9 @@ import 'package:salon_hub/size_config.dart';
 import 'sign_up_form.dart';
 
 class Body extends StatelessWidget {
+  final String isSalon;
+
+  const Body({Key? key, required this.isSalon}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -38,13 +41,13 @@ class Body extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
-                SignUpForm(),
+                SignUpForm(isSalon: isSalon,),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SizedBox(height: getProportionateScreenHeight(20)),
-                const Text(
+                Text(
                   'By continuing your confirm that you agree \nwith our Terms and Conditions',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: kPrimaryLightColor),
+                  style: TextStyle(color: lightBackgroundColor),
                 ),
                 const SizedBox(
                   height: 10.0,

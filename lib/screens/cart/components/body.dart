@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,9 +22,11 @@ class _BodyState extends State<Body> {
   final PanelController _panelController = PanelController();
   final Razorpay _razorpay = Razorpay();
   final FirebaseAuth auth = FirebaseAuth.instance;
+  final TextEditingController numController = TextEditingController();
   final TextEditingController name = TextEditingController();
   final TextEditingController phoneno = TextEditingController();
   final TextEditingController address = TextEditingController();
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   String description = '';
 
   _getOrderId(String txnid, String amount) async {}
@@ -230,7 +233,25 @@ class _BodyState extends State<Body> {
                                             Icons.remove_circle,
                                             color: kPrimaryLightColor,
                                           ))
-                                      : Container(),
+                                      : IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(
+                                            Icons.remove_circle,
+                                            color: Colors.grey,
+                                          )),
+                                  const SizedBox(
+                                    width: 10.0,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      _displayTextInputDialog(context, index);
+                                    },
+                                    child:
+                                        Text('${cartItems[index].numOfItem}'),
+                                  ),
+                                  const SizedBox(
+                                    width: 10.0,
+                                  ),
                                   IconButton(
                                     icon: const Icon(
                                       Icons.add_circle,
@@ -274,7 +295,7 @@ class _BodyState extends State<Body> {
           decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor,
             boxShadow: [
-              BoxShadow(blurRadius: 20.0, color: Colors.brown.shade300)
+              BoxShadow(blurRadius: 20.0, color: lightBackgroundColor)
             ],
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(20.0),
@@ -287,13 +308,14 @@ class _BodyState extends State<Body> {
                 Text.rich(
                   TextSpan(
                     text: "Email:\n",
+                    style: TextStyle(color: kPrimaryColor),
                     children: [
                       TextSpan(
                         text: auth.currentUser!.email,
                         style: const TextStyle(
                             fontSize: 18,
                             overflow: TextOverflow.visible,
-                            color: Color(0xffb2936e),
+                            color: Colors.white,
                             fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -329,7 +351,7 @@ class _BodyState extends State<Body> {
         child: TextFormField(
           controller: controller,
           keyboardType: isNumerical ? TextInputType.number : null,
-          style: const TextStyle(color: Color(0xffb2936e)),
+          style: const TextStyle(color: kPrimaryLightColor),
           validator: (value) {
             if (value!.length != 10 && isNumerical == true) {
               return "Mobile number must be of 10 digits.";
@@ -340,13 +362,61 @@ class _BodyState extends State<Body> {
           decoration: InputDecoration(
             hintText: text,
             labelText: text,
-            labelStyle: const TextStyle(color: Color(0xffb2936e)),
-            hintStyle:
-                TextStyle(color: const Color(0xffb2936e).withOpacity(0.5)),
+            labelStyle: const TextStyle(color: kPrimaryLightColor),
+            hintStyle: TextStyle(color: kPrimaryLightColor.withOpacity(0.5)),
             floatingLabelBehavior: FloatingLabelBehavior.always,
           ),
         ),
       ),
     );
+  }
+
+  Future<Object?> _displayTextInputDialog(
+      BuildContext context, int index) async {
+    return showGeneralDialog(
+        context: context,
+        pageBuilder: (context, anim1, anim2) {
+          throw Exception();
+        },
+        transitionBuilder: (context, anim1, anim2, child) {
+          return Transform.scale(
+            scale: anim1.value,
+            child: AlertDialog(
+              title: const Text(
+                'Input Num of Items',
+                style: TextStyle(color: Colors.black),
+              ),
+              content: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    cartItems[index].numOfItem = int.parse(value);
+                    totalPrice =
+                        cartItems[index].product.price * int.parse(value);
+                  });
+                },
+                controller: numController,
+                decoration: const InputDecoration(hintText: "Input number.."),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('CANCEL'),
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pop(context);
+                    });
+                  },
+                ),
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pop(context);
+                    });
+                  },
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

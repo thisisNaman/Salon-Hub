@@ -110,13 +110,17 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
           DefaultButton(
             text: "Continue",
             press: () async {
-              await FirebaseAuth.instance.sendPasswordResetEmail(
-                  email: resetPasswordController.text.trim());
-              showSnackbar(context, "Reset link sent to the specified email.");
+              try {
+                await FirebaseAuth.instance.sendPasswordResetEmail(
+                    email: resetPasswordController.text.trim());
+                showSnackbar(
+                    context, "Reset link sent to the specified email.");
+              } catch (e) {
+                showSnackbar(context, "Please check the email entered.");
+              }
             },
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.1),
-          NoAccountText(),
         ],
       ),
     );

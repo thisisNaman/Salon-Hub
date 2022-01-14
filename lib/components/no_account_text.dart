@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:salon_hub/screens/sign_up/sign_up_screen.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../constants.dart';
 import '../size_config.dart';
 
-class NoAccountText extends StatelessWidget {
+class NoAccountText extends StatefulWidget {
+  final PanelController controller;
   const NoAccountText({
+    required this.controller,
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<NoAccountText> createState() => _NoAccountTextState();
+}
+
+class _NoAccountTextState extends State<NoAccountText> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -16,10 +24,15 @@ class NoAccountText extends StatelessWidget {
       children: [
         Text(
           "Don’t have an account? ",
-          style: TextStyle(fontSize: getProportionateScreenWidth(16)),
+          style: TextStyle(
+              fontSize: getProportionateScreenWidth(16), color: Colors.white54),
         ),
         GestureDetector(
-          onTap: () => Navigator.pushNamed(context, SignUpScreen.routeName),
+          onTap: () {
+            setState(() {
+              widget.controller.open();
+            });
+          },
           child: Text(
             "Sign Up",
             style: TextStyle(

@@ -3,12 +3,17 @@ import 'package:salon_hub/components/custom_suffix_icon.dart';
 import 'package:salon_hub/components/default_button.dart';
 import 'package:salon_hub/components/form_error.dart';
 import 'package:salon_hub/helper/snack_bar.dart';
+import 'package:salon_hub/screens/complete_profile/complete_profile_screen.dart';
 import 'package:salon_hub/services/authentication_service.dart';
 import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class SignUpForm extends StatefulWidget {
+  final String isSalon;
+
+  const SignUpForm({Key? key, required this.isSalon}) : super(key: key);
+
   @override
   _SignUpFormState createState() => _SignUpFormState();
 }
@@ -25,17 +30,19 @@ class _SignUpFormState extends State<SignUpForm> {
   final List<String?> errors = [];
 
   void addError({String? error}) {
-    if (!errors.contains(error))
+    if (!errors.contains(error)) {
       setState(() {
         errors.add(error);
       });
+    }
   }
 
   void removeError({String? error}) {
-    if (errors.contains(error))
+    if (errors.contains(error)) {
       setState(() {
         errors.remove(error);
       });
+    }
   }
 
   @override
@@ -53,21 +60,23 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "Continue",
-            press: () async {
+            press: () {
               if (_passwordController.text.trim() ==
-                  _passwordconfirmController.text.trim()) {
-                final result = await context
-                    .read<AuthenticationService>()
-                    .signUp(
-                        email: _emailController.text.trim(),
-                        password: _passwordController.text.trim());
-
-                // showSnackbar(context, result);
-                if (result == "Verification link sent") {
-                  showSnackbar(context, result);
-                }
-              } else
-                showSnackbar(context, "Passwords didn't match");
+                      _passwordconfirmController.text.trim() &&
+                  _emailController.text.trim() != "" &&
+                  _passwordController.text.trim().length > 8) {
+                Navigator.pushNamed(context, CompleteProfileScreen.routeName,
+                    arguments: [
+                      _emailController.text.trim(),
+                      _passwordController.text.trim(),
+                      widget.isSalon
+                    ]);
+              } else if (_passwordController.text.trim().length < 8) {
+                showSnackbar(
+                    context, "Password must be atleast 8 characters long.");
+              } else {
+                showSnackbar(context, "Please fill all the fields!");
+              }
             },
           ),
         ],
@@ -98,7 +107,7 @@ class _SignUpFormState extends State<SignUpForm> {
         }
         return null;
       },
-      style: TextStyle(color: kPrimaryLightColor),
+      style: const TextStyle(color: kPrimaryLightColor),
       decoration: const InputDecoration(
         labelText: "Confirm Password",
         hintText: "Re-enter your password",

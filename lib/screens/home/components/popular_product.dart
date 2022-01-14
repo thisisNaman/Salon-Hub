@@ -26,6 +26,7 @@ class _PopularProductsState extends State<PopularProducts> {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
+              SizedBox(width: getProportionateScreenWidth(5)),
               ...List.generate(
                 popularProducts.length,
                 (index) {

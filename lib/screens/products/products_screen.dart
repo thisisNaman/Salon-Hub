@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:salon_hub/components/default_button.dart';
@@ -7,6 +8,7 @@ import 'package:salon_hub/models/product.dart';
 import 'package:salon_hub/screens/details/details_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:salon_hub/components/search_field.dart';
+import 'package:salon_hub/services/connectivity_service.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'dart:convert' as convert;
 import '../../size_config.dart';
@@ -44,8 +46,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   void initState() {
     super.initState();
-    futureTools = _getTools(toolsUrl, '', 0);
-    futureSkinProducts = _getTools(skinProductsUrl, '', 0);
+    futureTools = _getTools(toolsUrl, '');
+    futureSkinProducts = _getTools(skinProductsUrl, '');
     myScroll();
   }
 
@@ -104,9 +106,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       margin: const EdgeInsets.symmetric(vertical: 20.0),
                       child: SearchField(onChanged: (val) {
                         setState(() {
-                          futureTools = _getTools(toolsUrl, val, 0);
-                          futureSkinProducts =
-                              _getTools(skinProductsUrl, val, 0);
+                          futureTools = _getTools(toolsUrl, val);
+                          futureSkinProducts = _getTools(skinProductsUrl, val);
                         });
                       }),
                     )
@@ -119,7 +120,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       isAlwaysShown: false,
                       radius: const Radius.circular(10.0),
                       child: FutureBuilder(
-                          future: ctg == '1' ? futureSkinProducts : futureTools,
+                          future:
+                              ctg[0] == '1' ? futureSkinProducts : futureTools,
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.connectionState ==
@@ -255,94 +257,99 @@ class _ProductsScreenState extends State<ProductsScreen> {
               ),
             ],
           ),
-          SlidingUpPanel(
-              controller: _panelController,
-              minHeight: _showBar ? MediaQuery.of(context).size.height / 8 : 0,
-              color: Colors.transparent,
-              backdropEnabled: true,
-              borderRadius: BorderRadius.circular(20.0),
-              maxHeight: MediaQuery.of(context).size.height / 2,
-              collapsed: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(24.0),
-                      topRight: Radius.circular(24.0)),
-                ),
-                child: Center(
-                  child: DefaultButton(
-                    press: () {
-                      _panelController.open();
-                      setState(() {});
-                    },
-                    text: 'Filter',
-                  ),
-                ),
-              ),
-              panel: Container(
-                padding: const EdgeInsets.all(20.0),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20.0),
-                      topRight: Radius.circular(20.0)),
-                ),
-                child: ctg == '1'
-                    ? ListView.builder(
-                        itemCount: 5,
-                        itemBuilder: (BuildContext context, index) {
-                          return RadioListTile(
-                              title: Text(
-                                skinCategory[index],
-                                style: const TextStyle(color: kPrimaryColor),
-                              ),
-                              tileColor: kPrimaryColor,
-                              activeColor: kPrimaryColor,
-                              selectedTileColor: kPrimaryColor,
-                              value: index,
-                              groupValue: _skinValue,
-                              onChanged: (int? val) {
-                                setState(() {
-                                  _skinValue = val!;
-                                  futureSkinProducts = _getTools(
-                                      skinProductsUrl, '', _skinValue);
-                                });
-                              });
-                        },
-                      )
-                    : Container(
-                        padding: const EdgeInsets.all(20.0),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(20.0),
-                              topRight: Radius.circular(20.0)),
-                        ),
-                        child: ListView.builder(
-                          itemCount: 3,
-                          itemBuilder: (BuildContext context, index) {
-                            return RadioListTile(
-                                title: Text(
-                                  toolsCategory[index],
-                                  style: const TextStyle(color: kPrimaryColor),
-                                ),
-                                tileColor: kPrimaryColor,
-                                activeColor: kPrimaryColor,
-                                selectedTileColor: kPrimaryColor,
-                                value: index,
-                                groupValue: _toolValue,
-                                onChanged: (int? val) {
-                                  setState(() {
-                                    _toolValue = val!;
-                                    futureTools =
-                                        _getTools(toolsUrl, '', _toolValue);
-                                  });
-                                });
-                          },
-                        ),
-                      ),
-              ))
+          // (ctg == '1' || ctg == '2')
+          //     ? SlidingUpPanel(
+          //         controller: _panelController,
+          //         minHeight:
+          //             _showBar ? MediaQuery.of(context).size.height / 8 : 0,
+          //         color: Colors.transparent,
+          //         backdropEnabled: true,
+          //         borderRadius: BorderRadius.circular(20.0),
+          //         maxHeight: MediaQuery.of(context).size.height / 2,
+          //         collapsed: Container(
+          //           padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          //           decoration: BoxDecoration(
+          //             color: Theme.of(context).scaffoldBackgroundColor,
+          //             borderRadius: const BorderRadius.only(
+          //                 topLeft: Radius.circular(24.0),
+          //                 topRight: Radius.circular(24.0)),
+          //           ),
+          //           child: Center(
+          //             child: DefaultButton(
+          //               press: () {
+          //                 _panelController.open();
+          //                 setState(() {});
+          //               },
+          //               text: 'Filter',
+          //             ),
+          //           ),
+          //         ),
+          //         panel: Container(
+          //           padding: const EdgeInsets.all(20.0),
+          //           decoration: BoxDecoration(
+          //             color: Theme.of(context).scaffoldBackgroundColor,
+          //             borderRadius: const BorderRadius.only(
+          //                 topLeft: Radius.circular(20.0),
+          //                 topRight: Radius.circular(20.0)),
+          //           ),
+          //           child: ctg == '1'
+          //               ? ListView.builder(
+          //                   itemCount: 5,
+          //                   itemBuilder: (BuildContext context, index) {
+          //                     return RadioListTile(
+          //                         title: Text(
+          //                           skinCategory[index],
+          //                           style:
+          //                               const TextStyle(color: kPrimaryColor),
+          //                         ),
+          //                         tileColor: kPrimaryColor,
+          //                         activeColor: kPrimaryColor,
+          //                         selectedTileColor: kPrimaryColor,
+          //                         value: index,
+          //                         groupValue: _skinValue,
+          //                         onChanged: (int? val) {
+          //                           setState(() {
+          //                             _skinValue = val!;
+          //                             futureSkinProducts = _getTools(
+          //                                 skinProductsUrl, '', _skinValue);
+          //                           });
+          //                         });
+          //                   },
+          //                 )
+          //               : Container(
+          //                   padding: const EdgeInsets.all(20.0),
+          //                   decoration: BoxDecoration(
+          //                     color: Theme.of(context).scaffoldBackgroundColor,
+          //                     borderRadius: const BorderRadius.only(
+          //                         topLeft: Radius.circular(20.0),
+          //                         topRight: Radius.circular(20.0)),
+          //                   ),
+          //                   child: ListView.builder(
+          //                     itemCount: 3,
+          //                     itemBuilder: (BuildContext context, index) {
+          //                       return RadioListTile(
+          //                           title: Text(
+          //                             toolsCategory[index],
+          //                             style:
+          //                                 const TextStyle(color: kPrimaryColor),
+          //                           ),
+          //                           tileColor: kPrimaryColor,
+          //                           activeColor: kPrimaryColor,
+          //                           selectedTileColor: kPrimaryColor,
+          //                           value: index,
+          //                           groupValue: _toolValue,
+          //                           onChanged: (int? val) {
+          //                             setState(() {
+          //                               _toolValue = val!;
+          //                               futureTools =
+          //                                   _getTools(toolsUrl, '', _toolValue);
+          //                             });
+          //                           });
+          //                     },
+          //                   ),
+          //                 ),
+          //         ))
+          //     : Container()
         ],
       )),
     );
@@ -358,7 +365,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
     );
   }
 
-  Future<List<Product>> _getTools(String url, String query, int ind) async {
+  Future<List<Product>> _getTools(String url, String query) async {
     var response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -368,16 +375,19 @@ class _ProductsScreenState extends State<ProductsScreen> {
         final pdName = product.name.toLowerCase();
         final ctg = product.category.toLowerCase();
         final searchLower = query.toLowerCase();
-        if (page == '1' && ind == 0) {
-          return pdName.contains(searchLower) || ctg.contains(searchLower);
-        } else if (page == '1' && ind != 0) {
-          return pdName.contains(searchLower) &&
-              ctg.contains(skinCategory[ind]);
-        } else if (page == '2' && ind == 0) {
-          return pdName.contains(searchLower) || ctg.contains(searchLower);
+
+        if (page == '11') {
+          return pdName.contains(searchLower) && ctg.contains('wella');
+        } else if (page == '12') {
+          return pdName.contains(searchLower) && ctg.contains('vedicline');
+        } else if (page == '13') {
+          return pdName.contains(searchLower) && ctg.contains('cacau');
+        } else if (page == '14') {
+          return pdName.contains(searchLower) && ctg.contains('raaga');
+        } else if (page == '21') {
+          return pdName.contains(searchLower) && ctg.contains('ikonic');
         } else {
-          return pdName.contains(searchLower) &&
-              ctg.contains(toolsCategory[ind]);
+          return pdName.contains(searchLower) && ctg.contains('wahl');
         }
       }).toList();
     } else {

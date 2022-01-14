@@ -20,6 +20,7 @@ class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool loading = false;
 
   String? email;
   String? password;
@@ -67,25 +68,44 @@ class _SignFormState extends State<SignForm> {
           ),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
-          DefaultButton(
-            text: "Continue",
-            press: () async {
-              final result = await context.read<AuthenticationService>().signIn(
-                    email: emailController.text.trim(),
-                    password: passwordController.text.trim(),
-                  );
-              if (result == "Signed in") {
-                Navigator.pushNamed(context, LoginSuccessScreen.routeName);
-              } else if (result == "not verified") {
-                showSnackbar(
-                    context, "Please verify first.Link sent on email.");
-              } else {
-                showSnackbar(context,
-                    "User not registered or the credentials are wrong.");
-              }
-              KeyboardUtil.hideKeyboard(context);
-            },
-          ),
+          !loading
+              ? DefaultButton(
+                  text: "Continue",
+                  press: () async {
+                    setState(() {
+                      loading = true;
+                    });
+                    final result =
+                        await context.read<AuthenticationService>().signIn(
+                              email: emailController.text.trim(),
+                              password: passwordController.text.trim(),
+                            );
+                    if (result == "Signed in") {
+                      setState(() {
+                        loading = false;
+                      });
+                      Navigator.pushNamed(
+                          context, LoginSuccessScreen.routeName);
+                    } else if (result == "not verified") {
+                      setState(() {
+                        loading = false;
+                      });
+                      showSnackbar(
+                          context, "Please verify first.Link sent on email.");
+                    } else {
+                      setState(() {
+                        loading = false;
+                      });
+                      showSnackbar(context,
+                          "User not registered or the credentials are wrong.");
+                    }
+                    KeyboardUtil.hideKeyboard(context);
+                  },
+                )
+              : const Center(
+                  child: CircularProgressIndicator(
+                  color: kPrimaryColor,
+                )),
         ],
       ),
     );

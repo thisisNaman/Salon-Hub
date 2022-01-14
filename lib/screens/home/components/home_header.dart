@@ -14,16 +14,28 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      width: MediaQuery.of(context).size.width / 2 + 20,
+      height: 50,
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(25.0)),
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const Image(
+            image: AssetImage('assets/images/Logo.png'),
+            height: 40.0,
+            width: 40.0,
+          ),
+          const SizedBox(
+            width: 20.0,
+          ),
           Text(
             'Salon Hub',
             style: TextStyle(
-                color: Colors.white,
+                color: kPrimaryColor,
                 fontSize: getProportionateScreenWidth(20),
                 fontWeight: FontWeight.bold),
           )

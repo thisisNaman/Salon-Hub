@@ -42,9 +42,10 @@ class ProductCard extends StatelessWidget {
                       );
                     }
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
+                      return const CircularProgressIndicator(
+                        color: kPrimaryLightColor,
+                      );
                     }
-
                     return Container();
                   },
                 ),
@@ -85,6 +86,13 @@ Future<Widget?> _getImage(BuildContext context, String imageName) async {
     child: Image.network(
       imageName,
       fit: BoxFit.fill,
+      errorBuilder:
+          (BuildContext context, Object exception, StackTrace? stackTrace) {
+        return Icon(
+          Icons.wifi_off_rounded,
+          color: kPrimaryColor,
+        );
+      },
     ),
   );
 }

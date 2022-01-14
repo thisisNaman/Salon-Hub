@@ -1,9 +1,9 @@
 name: salon_hub
-description: A new Flutter project.
+description: App for buying salon based products
 
 publish_to: 'none' 
 
-version: 1.0.1+1
+version: 1.0.2+1
 
 environment:
   sdk: ">=2.15.0-262.0.dev <3.0.0"
@@ -17,6 +17,7 @@ dependencies:
   firebase_core:
   firebase_auth:
   firebase_dynamic_links: 
+  cloud_firestore: ^3.1.6
   connectivity: 
   path_provider: ^2.0.8
   flutter_staggered_grid_view: 
@@ -25,6 +26,7 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   connectivity_plus: ^2.2.0
   cupertino_icons: ^1.0.2
+  internet_connection_checker: ^0.0.1+3
 
 dev_dependencies:
   flutter_test:
