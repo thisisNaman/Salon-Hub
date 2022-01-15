@@ -38,7 +38,8 @@ class AuthenticationService {
       String? firstName,
       String? lastName,
       String? salonName,
-      String? address,
+      String? streetAddress,
+      String? district, String? state, String? pincode,
       String? phonenum}) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
@@ -47,12 +48,18 @@ class AuthenticationService {
       );
       CustomUser user = salonName != ""
           ? CustomUser(
-              address: address,
+              streetAddress: streetAddress,
+              state: state,
+              district: district,
+              pincode: pincode,
               salonName: salonName,
               phoneno: phonenum,
               isSalon: true)
           : CustomUser(
-              address: address,
+              streetAddress: streetAddress,
+              state: state,
+              district: district,
+              pincode: pincode,
               phoneno: phonenum,
               salonName: salonName,
               isSalon: false);

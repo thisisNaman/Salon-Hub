@@ -54,16 +54,38 @@ class _BodyState extends State<Body> {
                     SignForm(),
                     SizedBox(height: SizeConfig.screenHeight * 0.08),
                     SizedBox(height: getProportionateScreenHeight(20)),
-                    NoAccountText(
-                      controller: _controller,
-                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don’t have an account? ",
+                          style: TextStyle(
+                              fontSize: getProportionateScreenWidth(16),
+                              color: Colors.white54),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _controller.open();
+                            });
+                          },
+                          child: Text(
+                            "Sign Up",
+                            style: TextStyle(
+                                fontSize: getProportionateScreenWidth(16),
+                                color: kPrimaryColor),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
             ),
             SlidingUpPanel(
               minHeight: 0,
-              backdropColor: Colors.black38.withOpacity(0.5),
+              backdropColor: Colors.black38,
+              backdropEnabled: true,
               controller: _controller,
               borderRadius: BorderRadius.circular(20.0),
               panel: Container(
@@ -79,7 +101,8 @@ class _BodyState extends State<Body> {
                     InkWell(
                       splashColor: lightBackgroundColor,
                       onTap: () {
-                        Navigator.pushNamed(context, SignUpScreen.routeName, arguments: "true");
+                        Navigator.pushNamed(context, SignUpScreen.routeName,
+                            arguments: "true");
                       },
                       child: Container(
                         width: width - 20,
@@ -99,7 +122,8 @@ class _BodyState extends State<Body> {
                     InkWell(
                       splashColor: lightBackgroundColor,
                       onTap: () {
-                        Navigator.pushNamed(context, SignUpScreen.routeName, arguments: "false");
+                        Navigator.pushNamed(context, SignUpScreen.routeName,
+                            arguments: "false");
                       },
                       child: Container(
                         width: width - 20,

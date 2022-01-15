@@ -4,8 +4,6 @@ import 'package:salon_hub/components/custom_suffix_icon.dart';
 import 'package:salon_hub/components/default_button.dart';
 import 'package:salon_hub/components/form_error.dart';
 import 'package:salon_hub/helper/snack_bar.dart';
-import 'package:salon_hub/screens/login_success/login_success_screen.dart';
-import 'package:salon_hub/screens/sign_up/sign_up_screen.dart';
 
 import '../../../constants.dart';
 import '../../../services/authentication_service.dart';
@@ -26,7 +24,10 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController salonNameController = TextEditingController();
   final TextEditingController phoneNumController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
+  final TextEditingController streetaddressController = TextEditingController();
+  final TextEditingController districtController = TextEditingController();
+  final TextEditingController stateController = TextEditingController();
+  final TextEditingController pincodeController = TextEditingController();
   String? firstName;
   String? lastName;
   String? phoneNumber;
@@ -66,7 +67,13 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
             SizedBox(height: getProportionateScreenHeight(30)),
             buildPhoneNumberFormField(),
             SizedBox(height: getProportionateScreenHeight(30)),
-            buildAddressFormField(),
+            buildStreetAddressFormField(),
+            SizedBox(height: getProportionateScreenHeight(30)),
+            buildDistrictFormField(),
+            SizedBox(height: getProportionateScreenHeight(30)),
+            buildStateFormField(),
+            SizedBox(height: getProportionateScreenHeight(30)),
+            buildPincodeNumberFormField(),
             FormError(errors: errors),
             SizedBox(height: getProportionateScreenHeight(40)),
             !loading
@@ -77,7 +84,11 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                           lastNameController.text != "" &&
                           (widget.args[2] == "false" ||
                               salonNameController.text != "") &&
-                          phoneNumController.text.trim().length == 10) {
+                          phoneNumController.text.trim().length == 10 &&
+                          streetaddressController.text != "" &&
+                          districtController.text != "" &&
+                          stateController.text != "" &&
+                          pincodeController.text != "") {
                         setState(() {
                           loading = true;
                         });
@@ -89,7 +100,11 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                                 firstName: firstNameController.text.trim(),
                                 lastName: lastNameController.text.trim(),
                                 phonenum: phoneNumController.text.trim(),
-                                address: addressController.text.trim(),
+                                streetAddress:
+                                    streetaddressController.text.trim(),
+                                district: districtController.text.trim(),
+                                state: stateController.text.trim(),
+                                pincode: pincodeController.text.trim(),
                                 salonName: salonNameController.text.trim());
 
                         if (result == "Verification link sent") {
@@ -135,9 +150,9 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     );
   }
 
-  TextFormField buildAddressFormField() {
+  TextFormField buildStreetAddressFormField() {
     return TextFormField(
-      controller: addressController,
+      controller: streetaddressController,
       onSaved: (newValue) => address = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -154,7 +169,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       },
       style: const TextStyle(color: kPrimaryLightColor),
       decoration: InputDecoration(
-        labelText: "Address",
+        labelText: "Street Address",
         hintText: widget.args[2] == "true"
             ? "Enter your salon address"
             : "Enter your address",
@@ -162,7 +177,97 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         hintStyle: const TextStyle(color: kPrimaryLightColor),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon:
+            const CustomSuffixIcon(svgIcon: "assets/icons/Location point.svg"),
+      ),
+    );
+  }
+
+  TextFormField buildDistrictFormField() {
+    return TextFormField(
+      controller: districtController,
+      onSaved: (newValue) => address = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kAddressNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kAddressNullError);
+          return "";
+        }
+        return null;
+      },
+      style: const TextStyle(color: kPrimaryLightColor),
+      decoration: const InputDecoration(
+        labelText: "District",
+        hintText: "District",
+        labelStyle: TextStyle(color: kPrimaryColor),
+        hintStyle: TextStyle(color: kPrimaryLightColor),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon:
             CustomSuffixIcon(svgIcon: "assets/icons/Location point.svg"),
+      ),
+    );
+  }
+
+  TextFormField buildStateFormField() {
+    return TextFormField(
+      controller: stateController,
+      onSaved: (newValue) => address = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kAddressNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kAddressNullError);
+          return "";
+        }
+        return null;
+      },
+      style: const TextStyle(color: kPrimaryLightColor),
+      decoration: const InputDecoration(
+        labelText: "State",
+        hintText: "State",
+        labelStyle: TextStyle(color: kPrimaryColor),
+        hintStyle: TextStyle(color: kPrimaryLightColor),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon:
+            CustomSuffixIcon(svgIcon: "assets/icons/Location point.svg"),
+      ),
+    );
+  }
+
+  TextFormField buildPincodeNumberFormField() {
+    return TextFormField(
+      controller: pincodeController,
+      keyboardType: TextInputType.phone,
+      onSaved: (newValue) => phoneNumber = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kPhoneNumberNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kPhoneNumberNullError);
+          return "";
+        }
+        return null;
+      },
+      style: const TextStyle(color: kPrimaryLightColor),
+      decoration: const InputDecoration(
+        labelText: "Pincode Number",
+        hintText: "Enter your pincode number",
+        labelStyle: TextStyle(color: kPrimaryColor),
+        hintStyle: TextStyle(color: kPrimaryLightColor),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: CustomSuffixIcon(svgIcon: "assets/icons/Phone.svg"),
       ),
     );
   }

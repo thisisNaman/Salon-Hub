@@ -166,110 +166,119 @@ class _BodyState extends State<Body> {
                           ],
                         ),
                       ),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 88,
-                            child: AspectRatio(
-                              aspectRatio: 0.88,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10.0),
-                                child: Image.network(
-                                  cartItems[index].product.image_src,
-                                  fit: BoxFit.fill,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 88,
+                              child: AspectRatio(
+                                aspectRatio: 0.88,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  child: Image.network(
+                                    cartItems[index].product.image_src,
+                                    fit: BoxFit.fill,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 20),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width - 185,
-                                child: Text(
-                                  cartItems[index].product.name,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 16),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
+                            const SizedBox(width: 20),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width - 185,
+                                  child: Text(
+                                    cartItems[index].product.name,
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 16),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  Text.rich(
-                                    TextSpan(
-                                      text:
-                                          "\u{20B9} ${cartItems[index].product.price}"
-                                              .replaceAllMapped(reg, mathFunc),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: kPrimaryColor),
-                                      children: [
+                                const SizedBox(height: 10),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: [
+                                      Text.rich(
                                         TextSpan(
-                                            text:
-                                                " x${cartItems[index].numOfItem}",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1),
-                                      ],
-                                    ),
+                                          text:
+                                              "\u{20B9} ${cartItems[index].product.price}"
+                                                  .replaceAllMapped(
+                                                      reg, mathFunc),
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: kPrimaryColor),
+                                          children: [
+                                            TextSpan(
+                                                text:
+                                                    " x${cartItems[index].numOfItem}",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10.0,
+                                      ),
+                                      cartItems[index].numOfItem > 1
+                                          ? IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  cartItems[index].numOfItem--;
+                                                  totalPrice -= cartItems[index]
+                                                      .product
+                                                      .price;
+                                                });
+                                              },
+                                              icon: const Icon(
+                                                Icons.remove_circle,
+                                                color: kPrimaryLightColor,
+                                              ))
+                                          : IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(
+                                                Icons.remove_circle,
+                                                color: Colors.grey,
+                                              )),
+                                      const SizedBox(
+                                        width: 10.0,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          _displayTextInputDialog(
+                                              context, index);
+                                        },
+                                        child: Text(
+                                            '${cartItems[index].numOfItem}'),
+                                      ),
+                                      const SizedBox(
+                                        width: 10.0,
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(
+                                          Icons.add_circle,
+                                          color: kPrimaryLightColor,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            cartItems[index].numOfItem++;
+                                            totalPrice +=
+                                                cartItems[index].product.price;
+                                          });
+                                        },
+                                      )
+                                    ],
                                   ),
-                                  const SizedBox(
-                                    width: 10.0,
-                                  ),
-                                  cartItems[index].numOfItem != 1
-                                      ? IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              cartItems[index].numOfItem--;
-                                              totalPrice -= cartItems[index]
-                                                  .product
-                                                  .price;
-                                            });
-                                          },
-                                          icon: const Icon(
-                                            Icons.remove_circle,
-                                            color: kPrimaryLightColor,
-                                          ))
-                                      : IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(
-                                            Icons.remove_circle,
-                                            color: Colors.grey,
-                                          )),
-                                  const SizedBox(
-                                    width: 10.0,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      _displayTextInputDialog(context, index);
-                                    },
-                                    child:
-                                        Text('${cartItems[index].numOfItem}'),
-                                  ),
-                                  const SizedBox(
-                                    width: 10.0,
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.add_circle,
-                                      color: kPrimaryLightColor,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        cartItems[index].numOfItem++;
-                                        totalPrice +=
-                                            cartItems[index].product.price;
-                                      });
-                                    },
-                                  )
-                                ],
-                              )
-                            ],
-                          )
-                        ],
+                                )
+                              ],
+                            )
+                          ],
+                        ),
                       )),
                 ),
               ),
@@ -387,12 +396,18 @@ class _BodyState extends State<Body> {
                 style: TextStyle(color: Colors.black),
               ),
               content: TextField(
+                keyboardType: TextInputType.phone,
                 onChanged: (value) {
-                  setState(() {
+                  if (int.parse(value) > 0) {
+                    totalPrice -= (cartItems[index].numOfItem *
+                        cartItems[index].product.price);
                     cartItems[index].numOfItem = int.parse(value);
-                    totalPrice =
-                        cartItems[index].product.price * int.parse(value);
-                  });
+                    totalPrice += (cartItems[index].product.price *
+                        cartItems[index].numOfItem);
+                    setState(() {});
+                  } else {
+                    showSnackbar(context, 'Please enter a positive number');
+                  }
                 },
                 controller: numController,
                 decoration: const InputDecoration(hintText: "Input number.."),

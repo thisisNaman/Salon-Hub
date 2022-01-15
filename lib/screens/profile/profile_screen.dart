@@ -18,9 +18,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          iconTheme: const IconThemeData(color: Colors.white),
+          automaticallyImplyLeading: false,
           title: const Text(
-            'Profile',
+            ' Profile',
             style: TextStyle(color: Colors.white),
           ),
         ),

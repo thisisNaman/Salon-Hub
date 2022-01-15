@@ -29,9 +29,12 @@ class Body extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
-                Text("Register Account",
+                Text(
+                    isSalon == "true"
+                        ? "Register Salon Account"
+                        : "Register User Account",
                     style: TextStyle(
-                      fontSize: getProportionateScreenWidth(28),
+                      fontSize: getProportionateScreenWidth(23),
                       fontWeight: FontWeight.bold,
                       color: kPrimaryLightColor,
                       height: 1.5,
@@ -41,7 +44,9 @@ class Body extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
-                SignUpForm(isSalon: isSalon,),
+                SignUpForm(
+                  isSalon: isSalon,
+                ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SizedBox(height: getProportionateScreenHeight(20)),
                 Text(

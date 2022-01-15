@@ -3,8 +3,14 @@ import 'package:salon_hub/models/cart.dart';
 
 import 'components/body.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   static String routeName = "/cart";
+
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,10 +29,29 @@ class CartScreen extends StatelessWidget {
             "Your Cart",
             style: TextStyle(color: Colors.white),
           ),
-          Text(
-            "${cartItems.length} items",
-            style: const TextStyle(color: Colors.white, fontSize: 15.0),
-          ),
+          Row(
+            children: [
+              cartItems.isNotEmpty
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() {
+                          cartItems.clear();
+                          totalPrice = 0;
+                        });
+                      },
+                      icon: const Icon(Icons.delete_forever))
+                  : Container(),
+              const SizedBox(
+                width: 10.0,
+              ),
+              Text(
+                cartItems.length > 1
+                    ? "${cartItems.length} items"
+                    : "${cartItems.length} item",
+                style: const TextStyle(color: Colors.white, fontSize: 15.0),
+              ),
+            ],
+          )
         ],
       ),
     );

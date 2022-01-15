@@ -126,32 +126,6 @@ class SpecialOffers extends StatelessWidget {
         const SizedBox(
           height: 20.0,
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              SpecialOfferCard(
-                image: "assets/images/premium_hair_banner.jpg",
-                category: "Skin and Hair Care",
-                numOfBrands: '1000+',
-                press: () {
-                  Navigator.pushNamed(context, ProductsScreen.routeName,
-                      arguments: '1');
-                },
-              ),
-              SpecialOfferCard(
-                image: "assets/images/tools.jpg",
-                category: "Tools",
-                numOfBrands: '300+',
-                press: () {
-                  Navigator.pushNamed(context, ProductsScreen.routeName,
-                      arguments: '2');
-                },
-              ),
-              SizedBox(width: getProportionateScreenWidth(20)),
-            ],
-          ),
-        ),
       ],
     );
   }
@@ -198,27 +172,6 @@ class SpecialOfferCard extends StatelessWidget {
                     image,
                     fit: BoxFit.contain,
                     colorBlendMode: BlendMode.lighten,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: getProportionateScreenWidth(15.0),
-                      vertical: getProportionateScreenWidth(10),
-                    ),
-                    child: Text.rich(
-                      TextSpan(
-                        style: const TextStyle(color: Colors.black54),
-                        children: [
-                          TextSpan(
-                            text: "$category\n",
-                            style: TextStyle(
-                              fontSize: getProportionateScreenWidth(18),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          // TextSpan(text: "$numOfBrands Products")
-                        ],
-                      ),
-                    ),
                   ),
                 ],
               ),

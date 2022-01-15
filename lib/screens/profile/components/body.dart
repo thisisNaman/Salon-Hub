@@ -17,7 +17,10 @@ class Body extends StatefulWidget {
 
 final TextEditingController phoneController = TextEditingController();
 final TextEditingController nameController = TextEditingController();
-final TextEditingController addressController = TextEditingController();
+final TextEditingController streetAddressController = TextEditingController();
+final TextEditingController districtController = TextEditingController();
+final TextEditingController stateController = TextEditingController();
+final TextEditingController pincodeController = TextEditingController();
 
 class _BodyState extends State<Body> {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -45,7 +48,7 @@ class _BodyState extends State<Body> {
                 Text(
                   auth.currentUser!.displayName.toString() != ""
                       ? auth.currentUser!.displayName.toString()
-                      : auth.currentUser!.emailVerified.toString(),
+                      : auth.currentUser!.email.toString(),
                   style: const TextStyle(
                       fontSize: 20.0,
                       color: Colors.white,
@@ -104,63 +107,123 @@ class _BodyState extends State<Body> {
 
   Future<Object?> _displayChangeDialog(
       BuildContext context, int index, String txt) async {
-    return showGeneralDialog(
+    return showDialog(
         context: context,
-        pageBuilder: (context, anim1, anim2) {
-          throw Exception();
-        },
-        transitionBuilder: (context, anim1, anim2, child) {
-          return Transform.scale(
-            scale: anim1.value,
-            child: AlertDialog(
-              title: Text(
-                txt,
-                style: TextStyle(color: Colors.black),
-              ),
-              content: TextField(
-                onChanged: (value) async {
-                  if (index == 1) {
-                    await auth.currentUser!
-                        .updateDisplayName(nameController.text);
-                  } else if (index == 2) {
-                    await firestore
-                        .collection('userData')
-                        .doc(uid)
-                        .update({'phoneno': phoneController.text.trim()});
-                  } else {
-                    await firestore
-                        .collection('userData')
-                        .doc(uid)
-                        .update({'address': addressController.text.trim()});
-                  }
-                  setState(() {});
-                },
-                controller: index == 1
-                    ? nameController
-                    : index == 2
-                        ? phoneController
-                        : addressController,
-                decoration: const InputDecoration(hintText: "Enter.."),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('CANCEL'),
-                  onPressed: () {
-                    setState(() {
-                      Navigator.pop(context);
-                    });
-                  },
-                ),
-                TextButton(
-                  child: const Text('Change'),
-                  onPressed: () {
-                    setState(() {
-                      Navigator.pop(context);
-                    });
-                  },
-                ),
-              ],
+        builder: (context) {
+          return AlertDialog(
+            insetPadding: EdgeInsets.all(30),
+            title: Text(
+              txt,
+              style: const TextStyle(color: Colors.black),
             ),
+            content: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TextField(
+                    onChanged: (value) async {
+                      if (index == 1) {
+                        await auth.currentUser!
+                            .updateDisplayName(nameController.text);
+                      } else if (index == 2) {
+                        await firestore
+                            .collection('userData')
+                            .doc(uid)
+                            .update({'phoneno': phoneController.text.trim()});
+                      } else if (index == 3) {
+                        await firestore.collection('userData').doc(uid).update({
+                          'streetAddress': streetAddressController.text.trim()
+                        });
+                      }
+                      setState(() {});
+                    },
+                    keyboardType:
+                        index == 2 ? TextInputType.phone : TextInputType.text,
+                    controller: index == 1
+                        ? nameController
+                        : index == 2
+                            ? phoneController
+                            : streetAddressController,
+                    decoration: InputDecoration(
+                        hintText: index != 3 ? "Enter.." : "Street Address.."),
+                  ),
+                  index == 3
+                      ? const SizedBox(
+                          height: 10.0,
+                        )
+                      : Container(),
+                  index == 3
+                      ? TextField(
+                          onChanged: (value) async {
+                            await firestore
+                                .collection('userData')
+                                .doc(uid)
+                                .update({
+                              'district': districtController.text.trim()
+                            });
+                          },
+                          controller: districtController,
+                          decoration:
+                              const InputDecoration(hintText: "District"),
+                        )
+                      : Container(),
+                  index == 3
+                      ? const SizedBox(
+                          height: 10.0,
+                        )
+                      : Container(),
+                  index == 3
+                      ? TextField(
+                          onChanged: (value) async {
+                            await firestore
+                                .collection('userData')
+                                .doc(uid)
+                                .update({'state': stateController.text.trim()});
+                          },
+                          controller: stateController,
+                          decoration: const InputDecoration(hintText: "State"),
+                        )
+                      : Container(),
+                  index == 3
+                      ? const SizedBox(
+                          height: 10.0,
+                        )
+                      : Container(),
+                  index == 3
+                      ? TextField(
+                          keyboardType: TextInputType.phone,
+                          onChanged: (value) async {
+                            await firestore
+                                .collection('userData')
+                                .doc(uid)
+                                .update(
+                                    {'pincode': pincodeController.text.trim()});
+                          },
+                          controller: pincodeController,
+                          decoration:
+                              const InputDecoration(hintText: "Pincode"),
+                        )
+                      : Container(),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('CANCEL'),
+                onPressed: () {
+                  setState(() {
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+              TextButton(
+                child: const Text('Change'),
+                onPressed: () {
+                  setState(() {
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+            ],
           );
         });
   }
