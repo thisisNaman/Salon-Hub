@@ -1,7 +1,5 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:salon_hub/constants.dart';
-import 'package:salon_hub/helper/snack_bar.dart';
 import 'package:salon_hub/screens/home/components/popular_product.dart';
 import 'package:salon_hub/screens/products/products_screen.dart';
 
@@ -201,18 +199,6 @@ class SpecialOfferCard extends StatelessWidget {
                     fit: BoxFit.contain,
                     colorBlendMode: BlendMode.lighten,
                   ),
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //     gradient: LinearGradient(
-                  //       begin: Alignment.topCenter,
-                  //       end: Alignment.bottomCenter,
-                  //       colors: [
-                  //         const Color(0xFF343434).withOpacity(0.5),
-                  //         const Color(0xFF343434).withOpacity(0.15),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: getProportionateScreenWidth(15.0),

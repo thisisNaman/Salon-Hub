@@ -17,7 +17,7 @@ dependencies:
   firebase_core:
   firebase_auth:
   firebase_dynamic_links: 
-  cloud_firestore: ^3.1.6
+  cloud_firestore: 
   connectivity: 
   path_provider: ^2.0.8
   flutter_staggered_grid_view: 
