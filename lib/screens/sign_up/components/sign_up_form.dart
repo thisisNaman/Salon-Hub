@@ -61,8 +61,8 @@ class _SignUpFormState extends State<SignUpForm> {
           DefaultButton(
             text: "Continue",
             press: () {
-              if (_passwordController.text.trim() ==
-                      _passwordconfirmController.text.trim() &&
+              if ((_passwordController.text.trim() ==
+                      _passwordconfirmController.text.trim()) &&
                   _emailController.text.trim() != "" &&
                   _passwordController.text.trim().length > 8) {
                 Navigator.pushNamed(context, CompleteProfileScreen.routeName,
@@ -74,6 +74,9 @@ class _SignUpFormState extends State<SignUpForm> {
               } else if (_passwordController.text.trim().length < 8) {
                 showSnackbar(
                     context, "Password must be atleast 8 characters long.");
+              } else if (_passwordController.text.trim() !=
+                  _passwordconfirmController.text.trim()) {
+                showSnackbar(context, "Password didn't match");
               } else {
                 showSnackbar(context, "Please fill all the fields!");
               }

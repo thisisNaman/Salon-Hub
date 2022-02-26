@@ -86,16 +86,25 @@ class _CheckoutCardState extends State<CheckoutCard> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: getProportionateScreenWidth(170),
-                    child: DefaultButton(
-                      text: "Check Out",
-                      press: () {
-                        widget.pc.open();
-                        setState(() {});
-                      },
-                    ),
-                  ),
+                  widget.tPrice > 0
+                      ? SizedBox(
+                          width: getProportionateScreenWidth(170),
+                          child: DefaultButton(
+                            text: "Check Out",
+                            press: () {
+                              widget.pc.open();
+                              setState(() {});
+                            },
+                          ),
+                        )
+                      : SizedBox(
+                          width: getProportionateScreenWidth(170),
+                          child: DefaultButton(
+                            text: "Check Out",
+                            color: Colors.grey,
+                            press: () {},
+                          ),
+                        ),
                 ],
               ),
             ],

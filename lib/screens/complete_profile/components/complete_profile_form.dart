@@ -4,6 +4,7 @@ import 'package:salon_hub/components/custom_suffix_icon.dart';
 import 'package:salon_hub/components/default_button.dart';
 import 'package:salon_hub/components/form_error.dart';
 import 'package:salon_hub/helper/snack_bar.dart';
+import 'package:salon_hub/screens/sign_in/sign_in_screen.dart';
 
 import '../../../constants.dart';
 import '../../../services/authentication_service.dart';
@@ -52,6 +53,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   @override
   Widget build(BuildContext context) {
+    int count = 0;
     return Form(
       key: _formKey,
       child: SingleChildScrollView(
@@ -114,6 +116,9 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                           context.read<AuthenticationService>().signOut();
 
                           showSnackbar(context, result);
+                          Navigator.popUntil(context, (route) {
+                            return count++ == 2;
+                          });
                         } else {
                           showSnackbar(context, result);
                         }

@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:salon_hub/components/default_button.dart';
 import 'package:salon_hub/models/cart.dart';
+import 'package:salon_hub/screens/profile/profile_screen.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../../constants.dart';
 import 'check_out_card.dart';
@@ -21,11 +22,15 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final PanelController _panelController = PanelController();
   final Razorpay _razorpay = Razorpay();
-  final FirebaseAuth auth = FirebaseAuth.instance;
   final TextEditingController numController = TextEditingController();
   final TextEditingController name = TextEditingController();
   final TextEditingController phoneno = TextEditingController();
-  final TextEditingController address = TextEditingController();
+  final TextEditingController streetAddress = TextEditingController();
+  final TextEditingController districtController = TextEditingController();
+  final TextEditingController stateController = TextEditingController();
+  final TextEditingController pincodeController = TextEditingController();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final uid = FirebaseAuth.instance.currentUser!.uid;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   String description = '';
 
@@ -50,7 +55,6 @@ class _BodyState extends State<Body> {
       'prefill': {
         'contact': phoneno.text,
         'email': auth.currentUser!.email,
-        'notes': address.text,
       }
     };
     try {
@@ -60,12 +64,23 @@ class _BodyState extends State<Body> {
     }
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     showSnackbar(context,
         'Payment successful \nPayment id: ' + response.paymentId.toString());
+    await firestore.collection('orderDetails').doc(uid).set({
+      "name": name.text,
+      "email": auth.currentUser!.email,
+      "phoneno": phoneno.text.trim(),
+      "streetAddress": streetAddress.text.trim(),
+      "district": districtController.text.trim(),
+      "state": stateController.text.trim(),
+      "pincode": pincodeController.text.trim(),
+    });
     showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
               title: const Text(
                 'Payment successful',
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -76,7 +91,7 @@ class _BodyState extends State<Body> {
                   onPressed: () {
                     Navigator.of(ctx).pop();
                   },
-                  child: Text('Okay'),
+                  child: const Text('Okay'),
                 )
               ],
             ));
@@ -298,7 +313,7 @@ class _BodyState extends State<Body> {
         controller: _panelController,
         backdropEnabled: true,
         minHeight: 0,
-        maxHeight: 4 * MediaQuery.of(context).size.height / 5,
+        maxHeight: 5 * MediaQuery.of(context).size.height / 6,
         panel: Container(
           padding: const EdgeInsets.symmetric(vertical: 20.0),
           decoration: BoxDecoration(
@@ -316,28 +331,72 @@ class _BodyState extends State<Body> {
               children: [
                 Text.rich(
                   TextSpan(
-                    text: "Email:\n",
-                    style: TextStyle(color: kPrimaryColor),
+                    text: "Email:  ",
+                    style: const TextStyle(color: kPrimaryColor),
                     children: [
                       TextSpan(
                         text: auth.currentUser!.email,
                         style: const TextStyle(
                             fontSize: 18,
-                            overflow: TextOverflow.visible,
+                            overflow: TextOverflow.clip,
                             color: Colors.white,
                             fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
-                textField(size, "Name", false, name),
-                textField(size, "Phone no.", true, phoneno),
-                textField(size, "Address", false, address),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text.rich(
+                      TextSpan(
+                        text: "Name:  ",
+                        style: const TextStyle(color: kPrimaryColor),
+                        children: [
+                          TextSpan(
+                            text: auth.currentUser!.displayName,
+                            style: const TextStyle(
+                                fontSize: 18,
+                                overflow: TextOverflow.visible,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                textField(size, "Phone no.*", true, phoneno),
+                textField(size, "Delivery Address*", false, streetAddress),
+                textField(size, "District*", false, districtController),
+                textField(size, "State*", false, stateController),
+                textField(size, "Pincode*", true, pincodeController),
                 Container(
                   padding: const EdgeInsets.symmetric(
                       vertical: 50.0, horizontal: 50.0),
                   child: DefaultButton(
-                    press: launchRazorPay,
+                    press: () async {
+                      if (phoneno.text.trim().isNotEmpty &&
+                          streetAddress.text.isNotEmpty &&
+                          districtController.text.trim().isNotEmpty &&
+                          stateController.text.trim().isNotEmpty &&
+                          pincodeController.text.trim().isNotEmpty &&
+                          phoneno.text.trim().length == 10) {
+                        launchRazorPay();
+                      } else if (phoneno.text.trim().length != 10) {
+                        showSnackbar(
+                            context, 'Phone number must be of length 10.');
+                      } else {
+                        showSnackbar(
+                            context, 'Please fill all the fields correctly.');
+                      }
+                    },
                     text: 'Pay  \u{20B9} ' +
                         totalPrice.toString().replaceAllMapped(reg, mathFunc),
                   ),
