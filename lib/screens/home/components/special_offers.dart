@@ -34,7 +34,7 @@ class SpecialOffers extends StatelessWidget {
                   SpecialOfferCard(
                     image: "assets/images/wella.jpg",
                     category: "",
-                    numOfBrands: '120+',
+                    discount: 26,
                     press: () {
                       Navigator.pushNamed(context, ProductsScreen.routeName,
                           arguments: '11');
@@ -43,7 +43,7 @@ class SpecialOffers extends StatelessWidget {
                   SpecialOfferCard(
                     image: "assets/images/vedicline.jpg",
                     category: "",
-                    numOfBrands: '300+',
+                    discount: 20,
                     press: () {
                       Navigator.pushNamed(context, ProductsScreen.routeName,
                           arguments: '12');
@@ -60,7 +60,7 @@ class SpecialOffers extends StatelessWidget {
                   SpecialOfferCard(
                     image: "assets/images/cacau.png",
                     category: "",
-                    numOfBrands: '',
+                    discount: 26,
                     press: () {
                       Navigator.pushNamed(context, ProductsScreen.routeName,
                           arguments: '13');
@@ -69,7 +69,7 @@ class SpecialOffers extends StatelessWidget {
                   SpecialOfferCard(
                     image: "assets/images/raaga.jpg",
                     category: "",
-                    numOfBrands: '50+',
+                    discount: 30,
                     press: () {
                       Navigator.pushNamed(context, ProductsScreen.routeName,
                           arguments: '14');
@@ -100,7 +100,7 @@ class SpecialOffers extends StatelessWidget {
               SpecialOfferCard(
                 image: "assets/images/ikonic.jpg",
                 category: "",
-                numOfBrands: '80+',
+                discount: 25,
                 press: () {
                   Navigator.pushNamed(context, ProductsScreen.routeName,
                       arguments: '21');
@@ -109,7 +109,7 @@ class SpecialOffers extends StatelessWidget {
               SpecialOfferCard(
                 image: "assets/images/wahl.png",
                 category: "",
-                numOfBrands: '220+',
+                discount: 26,
                 press: () {
                   Navigator.pushNamed(context, ProductsScreen.routeName,
                       arguments: '22');
@@ -136,13 +136,13 @@ class SpecialOfferCard extends StatelessWidget {
     Key? key,
     required this.category,
     required this.image,
-    required this.numOfBrands,
     required this.press,
+    required this.discount,
   }) : super(key: key);
 
   final String category, image;
-  final String numOfBrands;
   final GestureTapCallback press;
+  final int discount;
 
   @override
   Widget build(BuildContext context) {
@@ -153,27 +153,33 @@ class SpecialOfferCard extends StatelessWidget {
         child: SizedBox(
           width: getProportionateScreenWidth(156),
           height: getProportionateScreenWidth(100),
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                    color: lightBackgroundColor,
-                    blurStyle: BlurStyle.outer,
-                    spreadRadius: 5.0,
-                    blurRadius: 15.0)
-              ],
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16.0),
-              child: Stack(
-                children: [
-                  Image.asset(
-                    image,
-                    fit: BoxFit.contain,
-                    colorBlendMode: BlendMode.lighten,
+          child: ClipRRect(
+            child: Banner(
+              location: BannerLocation.topEnd,
+              message: '${discount}% off',
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        color: lightBackgroundColor,
+                        blurStyle: BlurStyle.outer,
+                        spreadRadius: 5.0,
+                        blurRadius: 15.0)
+                  ],
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16.0),
+                  child: Stack(
+                    children: [
+                      Image.asset(
+                        image,
+                        fit: BoxFit.contain,
+                        colorBlendMode: BlendMode.lighten,
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),

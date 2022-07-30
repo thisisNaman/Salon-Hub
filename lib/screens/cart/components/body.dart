@@ -116,7 +116,7 @@ class _BodyState extends State<Body> {
           ' x' +
           cartItems[i].numOfItem.toString() +
           '\t Rs.' +
-          cartItems[i].product.price.toString() +
+          cartItems[i].product.finalPrice.toString() +
           '\n\n';
     }
   }
@@ -150,7 +150,7 @@ class _BodyState extends State<Body> {
                 )
               : Container(),
           Expanded(
-            flex: 3,
+            flex: 4,
             child: Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: getProportionateScreenWidth(20), vertical: 20.0),
@@ -163,13 +163,13 @@ class _BodyState extends State<Body> {
                       direction: DismissDirection.endToStart,
                       onDismissed: (direction) {
                         setState(() {
-                          totalPrice -= cartItems[index].product.price *
+                          totalPrice -= cartItems[index].product.finalPrice *
                               cartItems[index].numOfItem;
                           cartItems.removeAt(index);
                         });
                       },
                       background: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         decoration: BoxDecoration(
                           color: const Color(0xFFFFE6E6),
                           borderRadius: BorderRadius.circular(15),
@@ -221,7 +221,7 @@ class _BodyState extends State<Body> {
                                       Text.rich(
                                         TextSpan(
                                           text:
-                                              "\u{20B9} ${cartItems[index].product.price}"
+                                              "\u{20B9} ${cartItems[index].product.finalPrice} "
                                                   .replaceAllMapped(
                                                       reg, mathFunc),
                                           style: const TextStyle(
@@ -230,7 +230,15 @@ class _BodyState extends State<Body> {
                                           children: [
                                             TextSpan(
                                                 text:
-                                                    " x${cartItems[index].numOfItem}",
+                                                    "${cartItems[index].product.price}",
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: lightBackgroundColor,
+                                                    decoration: TextDecoration
+                                                        .lineThrough)),
+                                            TextSpan(
+                                                text:
+                                                    "  x${cartItems[index].numOfItem}",
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodyText1),
@@ -238,7 +246,7 @@ class _BodyState extends State<Body> {
                                         ),
                                       ),
                                       const SizedBox(
-                                        width: 10.0,
+                                        width: 8.0,
                                       ),
                                       cartItems[index].numOfItem > 1
                                           ? IconButton(
@@ -247,7 +255,7 @@ class _BodyState extends State<Body> {
                                                   cartItems[index].numOfItem--;
                                                   totalPrice -= cartItems[index]
                                                       .product
-                                                      .price;
+                                                      .finalPrice;
                                                 });
                                               },
                                               icon: const Icon(
@@ -261,7 +269,7 @@ class _BodyState extends State<Body> {
                                                 color: Colors.grey,
                                               )),
                                       const SizedBox(
-                                        width: 10.0,
+                                        width: 8.0,
                                       ),
                                       GestureDetector(
                                         onTap: () {
@@ -272,7 +280,7 @@ class _BodyState extends State<Body> {
                                             '${cartItems[index].numOfItem}'),
                                       ),
                                       const SizedBox(
-                                        width: 10.0,
+                                        width: 8.0,
                                       ),
                                       IconButton(
                                         icon: const Icon(
@@ -282,8 +290,9 @@ class _BodyState extends State<Body> {
                                         onPressed: () {
                                           setState(() {
                                             cartItems[index].numOfItem++;
-                                            totalPrice +=
-                                                cartItems[index].product.price;
+                                            totalPrice += cartItems[index]
+                                                .product
+                                                .finalPrice;
                                           });
                                         },
                                       )
@@ -300,7 +309,7 @@ class _BodyState extends State<Body> {
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: CheckoutCard(
               tPrice: totalPrice,
               pc: _panelController,
@@ -459,9 +468,9 @@ class _BodyState extends State<Body> {
                 onChanged: (value) {
                   if (int.parse(value) > 0) {
                     totalPrice -= (cartItems[index].numOfItem *
-                        cartItems[index].product.price);
+                        cartItems[index].product.finalPrice);
                     cartItems[index].numOfItem = int.parse(value);
-                    totalPrice += (cartItems[index].product.price *
+                    totalPrice += (cartItems[index].product.finalPrice *
                         cartItems[index].numOfItem);
                     setState(() {});
                   } else {

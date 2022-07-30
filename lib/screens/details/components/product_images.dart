@@ -101,7 +101,7 @@ Future<Widget?> _getImage(BuildContext context, String imageName) async {
     imageName,
     errorBuilder:
         (BuildContext context, Object exception, StackTrace? stackTrace) {
-      return Icon(
+      return const Icon(
         Icons.wifi_off_rounded,
         color: Colors.black,
       );

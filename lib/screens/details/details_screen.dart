@@ -22,7 +22,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-        child: CustomAppBar(),
+        child: CustomAppBar(product: agrs.product),
       ),
       body: Body(product: agrs.product),
     );

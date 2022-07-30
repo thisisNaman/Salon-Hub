@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:salon_hub/constants.dart';
@@ -26,9 +27,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
   String query = '';
   TextEditingController controller = TextEditingController();
   String skinProductsUrl =
-      'https://script.google.com/macros/s/AKfycbw6eP9yYcST_6X1eDhx-hxZu4Ix3YjG0Za28NYTF-WCXWCg4Ns2myDEHhQpJnzvZzJg/exec';
+      'https://script.googleusercontent.com/macros/echo?user_content_key=N34UXoeULl8YxCPsqg9dpJjD2hBTDQggnZ-3gmC34evcP7_Y2A_LkdsbQO2JRBuMy-PfLu9amnUCS5ved45kmNvzK87wPjUlm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnNvdbyrUWCIfGrZKxfypTO8jL7NGfVJ_cnK1YEcF2ORByXYdwrEEyF1ibM9Kc8xU9QQicvkirbCA2J0QnXtEOUEEI_gKUzx4gw&lib=M4elQ9gFf_LU9I1Zjf_JLDNmPTUpaVvRV';
   String toolsUrl =
-      'https://script.google.com/macros/s/AKfycbw-idkLlPqBOIagrHbaJ3q3iUABWTBCiNIAXr9vuxdIv5hN9ujKfNXvMl_CWtGEAfXNxA/exec';
+      'https://script.googleusercontent.com/macros/echo?user_content_key=px4J46PqkCoS4UhkpqPR8fkwqj5l-d4hIxpzPSDnuO9WM4VtXL2rlTtjBpxbo5seQwiPzF0oeuCnO7yiHrEqL9Q67yMGTnn5m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnDWEXP6XVYdmt6vhYHadWQ4dsj3Cq8plliUgAXKLSAt_BR2EL--CwbFoFCAzIjnq6BeKOXozBFyGkbYdeO6HZy-t-nsHcUomstz9Jw9Md8uu&lib=M46uGos4sCU9A44pzkND75OCnij2waFn4';
 
   bool _showBar = true;
   ScrollController _scrollController = ScrollController();
@@ -114,7 +115,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   padding: EdgeInsets.symmetric(
                       horizontal: getProportionateScreenWidth(17)),
                   child: Scrollbar(
-                      isAlwaysShown: false,
+                      thumbVisibility: false,
                       radius: const Radius.circular(10.0),
                       child: FutureBuilder(
                           future:
@@ -145,7 +146,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                         .data![index].image_src,
                                                     description: snapshot
                                                         .data![index]
-                                                        .description)));
+                                                        .description,
+                                                    discount: snapshot
+                                                        .data![index].discount,
+                                                    finalPrice: snapshot
+                                                        .data![index]
+                                                        .finalPrice)));
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
@@ -221,15 +227,88 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                                       ),
                                                     ),
                                                   ),
-                                                  Text(
-                                                    '\u{20B9} ${snapshot.data![index].price}'
-                                                        .replaceAllMapped(
-                                                            reg, mathFunc),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: const TextStyle(
-                                                      color: kPrimaryColor,
-                                                    ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        '\u{20B9} ${snapshot.data![index].finalPrice}'
+                                                            .replaceAllMapped(
+                                                                reg, mathFunc),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize:
+                                                              getProportionateScreenHeight(
+                                                                  15),
+                                                          color: kPrimaryColor,
+                                                        ),
+                                                      ),
+                                                      snapshot.data![index]
+                                                                  .discount !=
+                                                              0
+                                                          ? SizedBox(
+                                                              width:
+                                                                  getProportionateScreenHeight(
+                                                                      10),
+                                                            )
+                                                          : Container(),
+                                                      snapshot.data![index]
+                                                                  .discount !=
+                                                              0
+                                                          ? Text(
+                                                              '\u{20B9} ${snapshot.data![index].price}'
+                                                                  .replaceAllMapped(
+                                                                      reg,
+                                                                      mathFunc),
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .lineThrough,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize:
+                                                                    getProportionateScreenHeight(
+                                                                        13),
+                                                                color:
+                                                                    kTextColor,
+                                                              ),
+                                                            )
+                                                          : Container(),
+                                                      snapshot.data![index]
+                                                                  .discount !=
+                                                              0
+                                                          ? SizedBox(
+                                                              width:
+                                                                  getProportionateScreenHeight(
+                                                                      20),
+                                                            )
+                                                          : Container(),
+                                                      snapshot.data![index]
+                                                                  .discount !=
+                                                              0
+                                                          ? Text(
+                                                              '${snapshot.data![index].discount}% off'
+                                                                  .replaceAllMapped(
+                                                                      reg,
+                                                                      mathFunc),
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    getProportionateScreenHeight(
+                                                                        16),
+                                                                color: Colors
+                                                                    .green,
+                                                              ),
+                                                            )
+                                                          : Container(),
+                                                    ],
                                                   ),
                                                 ],
                                               ),
