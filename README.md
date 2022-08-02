@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/thisisNaman/Salon-Hub">
-    <img alt="Salon-Hub" src="./screenshots/header.png" width="100%" />
+    <img alt="Salon-Hub" src="./screenshots/header.jpg" width="100%" />
   </a>
 </p>
 <p align="center">
